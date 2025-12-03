@@ -4,7 +4,7 @@ Today Plan Chain 테스트
 오늘의 추천 일정 생성 체인을 테스트합니다.
 
 실행 방법:
-    python -m debug.test_today_plan_chain
+    python -m debug.report.test_today_plan_chain
 
 Author: AI Assistant
 Created: 2025-11-18
@@ -23,10 +23,10 @@ project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
 
 from app.infrastructure.vector_store import get_unified_collection
-from app.domain.search.retriever import UnifiedRetriever
-from app.domain.planner.tools import YesterdayReportTool
-from app.domain.planner.schemas import TodayPlanRequest
-from app.domain.planner.today_plan_chain import TodayPlanGenerator
+from app.domain.report.search.retriever import UnifiedRetriever
+from app.domain.report.planner.tools import YesterdayReportTool
+from app.domain.report.planner.schemas import TodayPlanRequest
+from app.domain.report.planner.today_plan_chain import TodayPlanGenerator
 from app.llm.client import get_llm
 
 

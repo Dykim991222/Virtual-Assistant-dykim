@@ -2,7 +2,7 @@
 Chroma Cloud daily_reports 컬렉션 삭제 스크립트
 
 사용법:
-    python -m debug.clear_daily_reports
+    python -m debug.report.clear_daily_reports
 """
 import os
 import sys

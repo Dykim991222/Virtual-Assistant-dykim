@@ -16,9 +16,14 @@ import os
 from app.domain.report.weekly.chain import generate_weekly_report
 from app.domain.report.weekly.repository import WeeklyReportRepository
 from app.domain.report.weekly.schemas import WeeklyReportCreate, WeeklyReportResponse, WeeklyReportListResponse
-from app.domain.common.canonical_schema import CanonicalReport
+from app.domain.report.core.canonical_models import CanonicalReport
 from app.infrastructure.database.session import get_db
-from app.reporting.pdf_generator.weekly_report_pdf import WeeklyReportPDFGenerator
+# PDF generator는 선택적으로 import (PyPDF2 의존성)
+try:
+    from app.reporting.pdf_generator.weekly_report_pdf import WeeklyReportPDFGenerator
+    PDF_AVAILABLE = True
+except ImportError:
+    PDF_AVAILABLE = False
 from app.reporting.html_renderer import render_report_html
 from urllib.parse import quote
 

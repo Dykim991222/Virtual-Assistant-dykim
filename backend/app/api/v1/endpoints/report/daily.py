@@ -24,9 +24,14 @@ from app.domain.report.daily.main_tasks_store import get_main_tasks_store
 from app.domain.report.daily.repository import DailyReportRepository
 from app.domain.report.daily.schemas import DailyReportCreate
 from app.llm.client import get_llm
-from app.domain.common.canonical_schema import CanonicalReport
+from app.domain.report.core.canonical_models import CanonicalReport
 from app.infrastructure.database.session import get_db
-from app.reporting.pdf_generator.daily_report_pdf import DailyReportPDFGenerator
+# PDF generator는 선택적으로 import (PyPDF2 의존성)
+try:
+    from app.reporting.pdf_generator.daily_report_pdf import DailyReportPDFGenerator
+    PDF_AVAILABLE = True
+except ImportError:
+    PDF_AVAILABLE = False
 from app.reporting.html_renderer import render_report_html
 from app.domain.report.core.chunker import chunk_canonical_report
 from app.domain.report.core.embedding_pipeline import EmbeddingPipeline

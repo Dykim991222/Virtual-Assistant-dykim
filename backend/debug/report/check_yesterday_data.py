@@ -19,8 +19,8 @@ if sys.platform == 'win32':
         sys.stdout.reconfigure(encoding='utf-8')
 
 from app.infrastructure.database.session import SessionLocal
-from app.domain.daily.models import DailyReport
-from app.domain.daily.repository import DailyReportRepository
+from app.domain.report.daily.models import DailyReport
+from app.domain.report.daily.repository import DailyReportRepository
 
 
 def main():

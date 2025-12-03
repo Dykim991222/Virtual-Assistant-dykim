@@ -7,8 +7,8 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
 from fastapi.responses import JSONResponse
 
-from app.domain.report.service import ReportProcessingService
-from app.domain.report.schemas import (
+from app.domain.report.core.service import ReportProcessingService
+from app.domain.report.core.schemas import (
     ReportParseResponse,
     ReportParseWithCanonicalResponse,
     ReportTypeDetectionResponse,

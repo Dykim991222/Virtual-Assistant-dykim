@@ -15,7 +15,7 @@ from app.domain.report.daily.schemas import (
     DailyReportResponse,
     DailyReportListResponse
 )
-from app.domain.common.canonical_schema import CanonicalReport
+from app.domain.report.core.canonical_models import CanonicalReport
 
 
 router = APIRouter(prefix="/daily-report", tags=["daily-report"])

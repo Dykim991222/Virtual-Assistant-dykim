@@ -6,7 +6,7 @@
 3. ingestion 스크립트 처리 경로 확인
 
 사용법:
-    python -m debug.check_daily_reports
+    python -m debug.report.check_daily_reports
 """
 import os
 import sys

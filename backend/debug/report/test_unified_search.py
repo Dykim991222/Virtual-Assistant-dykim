@@ -4,7 +4,7 @@ Unified Search 테스트 스크립트
 통합 검색 시스템의 동작을 테스트합니다.
 
 실행 방법:
-    python -m debug.test_unified_search
+    python -m debug.report.test_unified_search
 
 Author: AI Assistant
 Created: 2025-11-18
@@ -20,9 +20,9 @@ load_dotenv()
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.infrastructure.vector_store import get_unified_collection
-from app.domain.search.retriever import UnifiedRetriever
-from app.domain.search.intent_router import IntentRouter
-from app.domain.search.service import UnifiedSearchService
+from app.domain.report.search.retriever import UnifiedRetriever
+from app.domain.report.search.intent_router import IntentRouter
+from app.domain.report.search.service import UnifiedSearchService
 
 
 def print_separator(title: str = ""):

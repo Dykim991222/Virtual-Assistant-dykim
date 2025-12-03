@@ -4,7 +4,7 @@ Daily FSM 테스트
 시간대별 일일보고서 입력 FSM 테스트
 
 실행 방법:
-    python -m debug.test_daily_fsm
+    python -m debug.report.test_daily_fsm
 
 Author: AI Assistant
 Created: 2025-11-18
@@ -22,11 +22,11 @@ load_dotenv()
 project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
 
-from app.domain.daily.fsm_state import DailyFSMContext
-from app.domain.daily.time_slots import generate_time_slots
-from app.domain.daily.task_parser import TaskParser
-from app.domain.daily.daily_fsm import DailyReportFSM
-from app.domain.daily.daily_builder import build_daily_report
+from app.domain.report.daily.fsm_state import DailyFSMContext
+from app.domain.report.daily.time_slots import generate_time_slots
+from app.domain.report.daily.task_parser import TaskParser
+from app.domain.report.daily.daily_fsm import DailyReportFSM
+from app.domain.report.daily.daily_builder import build_daily_report
 from app.llm.client import get_llm
 
 
