@@ -5,7 +5,7 @@
   <title>보고서 & 업무 관리</title>
   
   <!-- CSS -->
-  <link rel="stylesheet" href="renderer/styles/report.css" />
+  <link rel="stylesheet" href="frontend/styles/report.css" />
   
   <style>
     * {
@@ -261,7 +261,7 @@
 
   <!-- 보고서 서비스 스크립트 -->
   <script type="module">
-    import { initReportPanel, getReportSessionData } from './renderer/report/reportPanelPopup.js';
+    import { initReportPanel, getReportSessionData } from './frontend/report/reportPanelPopup.js';
     
     // 페이지 로드 시 자동 초기화
     window.addEventListener('DOMContentLoaded', () => {

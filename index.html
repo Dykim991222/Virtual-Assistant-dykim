@@ -8,9 +8,9 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <!-- CSS 파일 링크 (순서 중요: live2d가 먼저, 패널들이 나중) -->
-  <link rel="stylesheet" href="renderer/styles/live2d.css" />
-  <link rel="stylesheet" href="renderer/styles/chat.css" />
-  <!-- <link rel="stylesheet" href="renderer/styles/tasks.css" /> -->
+  <link rel="stylesheet" href="frontend/styles/live2d.css" />
+  <link rel="stylesheet" href="frontend/styles/chat.css" />
+  <!-- <link rel="stylesheet" href="frontend/styles/tasks.css" /> -->
 
    <!-- 기본 스타일 (배경 완전 투명) -->
     <style>
@@ -40,7 +40,7 @@
 
 <body>
   <!-- 모듈 스크립트: 먼저 로드 (전역으로 export) -->
-  <script type="module" src="./renderer/chat/chatUI.js"></script>
+  <script type="module" src="frontend/chat/chatUI.js"></script>
 
   <!-- Live2D 스테이지 (배경, 전체 화면) -->
   <div id="stage"></div>
@@ -223,8 +223,8 @@
 
     /****************************************************************
      * 채팅 및 브레인스토밍 초기화 (모듈에서 처리)
-     * - renderer/chat/chatUI.js
-     * - renderer/brainstorming/brainstormingService.js
+     * - frontend/chat/chatUI.js
+     * - frontend/brainstorming/brainstormingService.js
      * 
      * ⚠️ 중복 로직 제거됨 - 모든 채팅 로직은 chatUI.js에서 처리
      ****************************************************************/

@@ -91,7 +91,6 @@ if TOOLS_AVAILABLE:
 # 정적 파일 경로 설정
 FRONTEND_DIR = BASE_DIR / "frontend"
 PUBLIC_DIR = BASE_DIR / "public"
-RENDERER_DIR = BASE_DIR / "renderer"
 
 # 보고서 HTML 파일 서빙 (타입별로 분리)
 # 중요: 더 구체적인 경로를 먼저 마운트해야 함
@@ -117,7 +116,7 @@ app.mount("/static/reports/monthly", StaticFiles(directory=str(monthly_dir)), na
 # 정적 파일 서빙 (보고서 경로 이후에 마운트)
 app.mount("/public", StaticFiles(directory=str(PUBLIC_DIR)), name="public")
 app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
-app.mount("/renderer", StaticFiles(directory=str(RENDERER_DIR)), name="renderer")
+app.mount("/frontend", StaticFiles(directory=str(FRONTEND_DIR)), name="frontend")
 
 print(f"✅ 보고서 HTML 서빙 경로 등록:")
 print(f"   - /static/reports/daily -> {daily_dir}")
