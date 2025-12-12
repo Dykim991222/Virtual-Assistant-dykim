@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "description": "Desktop Live2D assistant (Electron, transparent window)",
-  "main": "main.js",                      
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "start:backend": "python assistant.py",
     "start:dev": "concurrently \"npm run start:backend\" \"npm run start:electron\"",
     "start:electron": "electron .",
-    "postinstall": "echo Done"            
+    "postinstall": "echo Done"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,8 @@
     "concurrently": "^8.2.2",
     "electron": "^39.1.2",
     "wait-on": "^8.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }

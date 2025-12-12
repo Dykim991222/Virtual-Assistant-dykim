@@ -64,7 +64,7 @@ env/
 # VSCode
 .vscode/
 
-# Environment variables
+# Environment variables (only local/dev)
 .env
 .env.local
 .env.*.local

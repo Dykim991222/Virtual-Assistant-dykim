@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '../config.js';
+
 /**
  * 쿠키에서 값 가져오기
  */
@@ -134,7 +136,7 @@ async function handleSlackConnectClick() {
     
     try {
         // Slack OAuth URL 요청
-        const response = await fetch('http://localhost:8000/api/v1/auth/slack/login');
+        const response = await fetch(`${API_BASE_URL}/auth/slack/login`);
         const data = await response.json();
         
         if (data.authorization_url) {
@@ -165,7 +167,7 @@ async function handleNotionConnectClick() {
     
     try {
         // Notion OAuth URL 요청
-        const response = await fetch('http://localhost:8000/api/v1/auth/notion/login');
+        const response = await fetch(`${API_BASE_URL}/auth/notion/login`);
         const data = await response.json();
         
         if (data.authorization_url) {

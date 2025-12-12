@@ -34,7 +34,7 @@ virtual-assistant/
 *.swo
 *~
 
-# Environment Variables
+# Environment Variables (only local/dev)
 .env
 .env.local
 .env.*.local

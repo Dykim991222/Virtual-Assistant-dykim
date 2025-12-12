@@ -4,8 +4,7 @@
  * Multi-Agent 시스템 지원 추가
  */
 
-
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+import { API_BASE_URL } from '../config.js';
 const SESSION_KEY = 'chatbot_session_id';
 const MULTI_AGENT_SESSION_KEY = 'multi_agent_session_id';
 

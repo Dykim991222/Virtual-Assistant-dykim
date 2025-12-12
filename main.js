@@ -2,6 +2,13 @@ const { app, BrowserWindow, screen, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const path = require('path');
 
+//환경변수 로드 추가!
+require('dotenv').config();
+
+//환경변수에서 백엔드 URL 가져오기 (기본값 localhost)
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000';
+console.log('백엔드 URL:', BACKEND_URL);
+
 // 내보내기 핸들러 등록 (PDF, CSV)
 require('./exportHandlers.js');
 
@@ -31,7 +38,7 @@ function createLandingWindow() {
   });
 
   // 랜딩 페이지 로드 (시작하기, 사용설명서, 로그인 버튼)
-  loginWin.loadURL('http://localhost:8000/landing');
+  loginWin.loadURL(`${BACKEND_URL}/landing`);
 
   // OAuth 페이지에서 다시 랜딩 페이지로 돌아올 때 크기 복원
   loginWin.webContents.on('did-navigate', (event, url) => {
@@ -123,23 +130,8 @@ function createCharacterWindow() {
     }
   });
 
-  // 개발 모드: 캐시 + localStorage 완전 삭제
-  // ⚠️ 주석 처리: persist:main 세션의 쿠키(JWT 토큰)까지 삭제되는 문제
-  // 앱 시작 시 이미 캐시 삭제가 진행되므로 여기서는 불필요
-  /*
-  characterWin.webContents.session.clearCache().then(() => {
-    console.log('🔄 캐시 삭제 완료');
-  });
-
-  characterWin.webContents.session.clearStorageData({
-    storages: ['localstorage']
-  }).then(() => {
-    console.log('🗑️  localStorage 삭제 완료');
-  });
-  */
-
   // 메인 페이지 로드 (캐릭터 화면)
-  characterWin.loadURL('http://localhost:8000/main');
+  characterWin.loadURL(`${BACKEND_URL}/main`);
 
   console.log('📦 캐릭터 로딩 중...');
 
@@ -286,7 +278,7 @@ ipcMain.on('va:start-character', async () => {
       // characterWin에 쿠키 설정
       for (const cookie of cookies) {
         await charSession.cookies.set({
-          url: `http://localhost:8000`,
+          url: BACKEND_URL,
           name: cookie.name,
           value: cookie.value,
           path: cookie.path || '/',
@@ -304,7 +296,7 @@ ipcMain.on('va:start-character', async () => {
 
   // 쿠키 복사 후 URL 로드
   if (characterWin && !characterWin.isDestroyed()) {
-    characterWin.loadURL('http://localhost:8000/main');
+    characterWin.loadURL(`${BACKEND_URL}/main`);
     console.log('📦 캐릭터 로딩 중...');
   }
 
@@ -334,7 +326,7 @@ ipcMain.on('va:navigate', (_e, path) => {
   console.log(`🔄 페이지 이동: ${path}`);
 
   if (loginWin && !loginWin.isDestroyed()) {
-    loginWin.loadURL(`http://localhost:8000${path}`);
+    loginWin.loadURL(`${BACKEND_URL}${path}`);
   }
 });
 
@@ -380,7 +372,7 @@ async function openBrainstormingPopup() {
   // partition: 'persist:main'으로 세션 공유되므로 쿠키 복사 불필요
   
   // 브레인스토밍 전용 페이지 로드 (HTTP 프로토콜)
-  brainstormingWin.loadURL('http://localhost:8000/brainstorming-popup');
+  brainstormingWin.loadURL(`${BACKEND_URL}/brainstorming-popup`);
 
   // 개발자 도구 (F12)
   brainstormingWin.webContents.on('before-input-event', (event, input) => {
@@ -421,9 +413,10 @@ async function openBrainstormingPopup() {
 
         // 세션 삭제 API 호출
         const http = require('http');
+        const backendUrl = new URL(BACKEND_URL);
         const options = {
-          hostname: 'localhost',
-          port: 8000,
+          hostname: backendUrl.hostname,
+          port: backendUrl.port || (backendUrl.protocol === 'https:' ? 443 : 80),
           path: `/api/v1/brainstorming/session/${sessionId}`,
           method: 'DELETE'
         };
@@ -510,7 +503,7 @@ async function openReportPopup() {
       // reportWin에 쿠키 설정
       for (const cookie of cookies) {
         await reportSession.cookies.set({
-          url: `http://localhost:8000`,
+          url: BACKEND_URL,
           name: cookie.name,
           value: cookie.value,
           path: cookie.path || '/',
@@ -528,7 +521,7 @@ async function openReportPopup() {
 
   // 쿠키 복사 후 보고서 전용 페이지 로드 (HTTP 프로토콜 사용)
   if (reportWin && !reportWin.isDestroyed()) {
-    reportWin.loadURL('http://localhost:8000/report');
+    reportWin.loadURL(`${BACKEND_URL}/report`);
   }
 
   // 페이지 로드 완료
@@ -635,7 +628,7 @@ ipcMain.on('open-brainstorming-popup', async (event) => {
   // partition: 'persist:main'으로 세션 공유되므로 쿠키 복사 불필요
 
   // 쿠키 복사 후 페이지 로드 (HTTP 프로토콜)
-  brainstormingWin.loadURL('http://localhost:8000/brainstorming-popup');
+  brainstormingWin.loadURL(`${BACKEND_URL}/brainstorming-popup`);
 
   // 페이지 로드 완료
   brainstormingWin.webContents.on('did-finish-load', () => {
@@ -676,9 +669,10 @@ ipcMain.on('open-brainstorming-popup', async (event) => {
 
         // 세션 삭제 API 호출
         const http = require('http');
+        const backendUrl = new URL(BACKEND_URL);
         const options = {
-          hostname: 'localhost',
-          port: 8000,
+          hostname: backendUrl.hostname,
+          port: backendUrl.port || (backendUrl.protocol === 'https:' ? 443 : 80),
           path: `/api/v1/brainstorming/session/${sessionId}`,
           method: 'DELETE'
         };
@@ -747,7 +741,7 @@ ipcMain.handle('get-main-cookies', async () => {
   if (characterWin && !characterWin.isDestroyed()) {
     try {
       const mainSession = characterWin.webContents.session;
-      const cookies = await mainSession.cookies.get({ url: 'http://localhost:8000' });
+      const cookies = await mainSession.cookies.get({ url: BACKEND_URL });
       console.log(`🍪 메인 창 쿠키 ${cookies.length}개 반환`);
 
       // 쿠키를 객체로 변환
@@ -896,7 +890,7 @@ ipcMain.on('open-notion-oauth', async (event, authUrl) => {
     console.log('🔄 리디렉션 감지:', url);
 
     // 콜백 URL인지 확인
-    if (url.startsWith('http://localhost:8000/api/v1/auth/notion/callback')) {
+    if (url.startsWith(`${BACKEND_URL}/api/v1/auth/notion/callback`)) {
       console.log('✅ Notion OAuth 콜백 감지 - 창 닫기');
 
       // 콜백 URL을 메인 창에서 처리하도록 로드
@@ -917,13 +911,13 @@ ipcMain.on('open-notion-oauth', async (event, authUrl) => {
     console.log('🔄 네비게이션 감지:', url);
 
     // 콜백 URL이거나 /landing으로 리디렉션되면 창 닫기
-    if (url.startsWith('http://localhost:8000/api/v1/auth/notion/callback') ||
+    if (url.startsWith(`${BACKEND_URL}/api/v1/auth/notion/callback`) ||
       url.includes('/landing?notion_connected=true')) {
       console.log('✅ Notion OAuth 완료 - 창 닫기');
 
       // 메인 창에 알림
       if (loginWin && !loginWin.isDestroyed()) {
-        loginWin.loadURL('http://localhost:8000/landing?notion_connected=true');
+        loginWin.loadURL(`${BACKEND_URL}/landing?notion_connected=true`);
       }
 
       // OAuth 창 즉시 닫기
@@ -948,7 +942,7 @@ async function waitForBackend(maxRetries = 30) {
   for (let i = 0; i < maxRetries; i++) {
     try {
       await new Promise((resolve, reject) => {
-        const req = http.get('http://localhost:8000/health', (res) => {
+        const req = http.get(`${BACKEND_URL}/health`, (res) => {
           if (res.statusCode === 200) {
             resolve();
           } else {

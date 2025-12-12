@@ -49,12 +49,12 @@ class Settings(BaseSettings):
     # OAuth - Slack (사용자 개인 연동)
     SLACK_CLIENT_ID: str = ""
     SLACK_CLIENT_SECRET: str = ""
-    SLACK_REDIRECT_URI: str = "http://localhost:8000/api/v1/auth/slack/callback"
+    SLACK_REDIRECT_URI: str = "http://localhost:8000/api/v1/auth/slack/callback"  # 개발 기본값
     
     # OAuth - Notion (사용자 개인 연동)
     NOTION_CLIENT_ID: str = ""
     NOTION_CLIENT_SECRET: str = ""
-    NOTION_REDIRECT_URI: str = "http://localhost:8000/api/v1/auth/notion/callback"
+    NOTION_REDIRECT_URI: str = "http://localhost:8000/api/v1/auth/notion/callback"  # 개발 기본값
     
     # OpenAI
     OPENAI_API_KEY: str

@@ -1,4 +1,6 @@
-const API_BASE = 'http://localhost:8000/api/v1';
+import { API_BASE_URL } from '../config.js';
+
+const API_BASE = API_BASE_URL;
 
 export async function buildRequestContext() {
   const headers = { 'Content-Type': 'application/json' };

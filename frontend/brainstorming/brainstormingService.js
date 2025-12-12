@@ -3,7 +3,9 @@
  * brainstorming.py API 연동
  */
 
-const API_BASE = 'http://localhost:8000/api/v1/brainstorming';
+import { API_BASE_URL } from '../config.js';
+
+const API_BASE = `${API_BASE_URL}/brainstorming`;
 
 // 🔥 전역으로 export (init()에서 호출)
 window.initBrainstormingPanel = null;
@@ -803,7 +805,7 @@ async function handleSaveIdeas() {
     
     // Authorization 헤더 없이 요청
     // 백엔드가 쿠키에서 access_token을 자동으로 읽음
-    const response = await fetch('http://localhost:8000/api/v1/brainstorming/ideas', {
+    const response = await fetch(`${API_BASE}/ideas`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -989,7 +991,7 @@ async function toggleSavedIdeas() {
   try {
     // 캐시가 없으면 API 호출
     if (!savedIdeasCache) {
-      const response = await fetch('http://localhost:8000/api/v1/brainstorming/ideas', {
+      const response = await fetch(`${API_BASE}/ideas`, {
         method: 'GET',
         credentials: 'include'
       });

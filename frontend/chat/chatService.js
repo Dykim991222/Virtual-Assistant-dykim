@@ -5,7 +5,7 @@
  * Multi-Agent 시스템 사용: Supervisor가 자동으로 적절한 에이전트로 라우팅
  */
 
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+import { API_BASE_URL } from '../config.js';
 const MULTI_AGENT_SESSION_KEY = 'multi_agent_session_id';
 
 // 토큰 저장
