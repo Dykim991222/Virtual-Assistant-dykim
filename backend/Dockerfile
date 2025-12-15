@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y \
 # 작업 디렉토리를 프로젝트 루트로 설정
 WORKDIR /app
 
+# PYTHONPATH 설정 - /app를 Python 경로에 추가
+ENV PYTHONPATH=/app
+
 # Python 의존성 복사 및 설치
 COPY backend/requirements.txt ./backend/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
