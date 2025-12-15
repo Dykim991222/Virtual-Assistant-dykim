@@ -22,12 +22,14 @@
     },
     "files": [
       "main.js",
+      "exportHandlers.js",
       "index.html",
       "report-popup.html",
       "brainstorming-popup.html",
       "frontend/**/*",
       "public/**/*",
-      "package.json"
+      "package.json",
+      "*.js"
     ],
     "mac": {
       "target": "dmg",
