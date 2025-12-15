@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: virtual-assistant-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: virtual_assistant
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: virtual-assistant-backend
+    env_file:
+      - backend/.env.aws
+    environment:
+      # 컨테이너 내부에서는 서비스명으로 접근
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/virtual_assistant
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - ./backend/logs:/app/logs
+      - ./backend/Data:/app/Data
+      - ./backend/chroma_db:/app/chroma_db
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

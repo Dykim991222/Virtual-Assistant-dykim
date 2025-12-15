@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files (로컬 환경변수만 제외, .env.aws는 포함)
+.env
+.env.local
+.env.homeserver
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Data files (필요한 것만 COPY)
+Data/mock_reports/
+output/
+
+# ChromaDB (볼륨으로 마운트)
+chroma_db/
+
+# Alembic
+alembic/versions/__pycache__/
+
+# Tests
+test*.py
+*_test.py
+tests/
+
+# Documentation
+*.md
+docs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
