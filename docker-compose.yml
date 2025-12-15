@@ -30,7 +30,7 @@ services:
       # 컨테이너 내부에서는 서비스명으로 접근
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/virtual_assistant
     ports:
-      - "8000:8000"
+      - "8083:8000"
     depends_on:
       postgres:
         condition: service_healthy
