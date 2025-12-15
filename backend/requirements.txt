@@ -156,3 +156,4 @@ sentence-transformers==3.3.1
 # - electron: ^39.1.2 (Electron 프레임워크)
 # - wait-on: ^8.0.0 (대기 유틸리티)
 
+slack-sdk
