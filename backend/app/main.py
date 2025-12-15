@@ -210,6 +210,16 @@ async def brainstorming_popup_page():
         return {"error": "Brainstorming page not found"}
 
 
+@app.get("/download")
+async def download_page():
+    """다운로드 페이지"""
+    download_page = FRONTEND_DIR / "Download" / "download.html"
+    if download_page.exists():
+        return FileResponse(download_page)
+    else:
+        return {"error": "Download page not found"}
+
+
 if __name__ == "__main__":
     import uvicorn
     
