@@ -23,6 +23,7 @@ COPY tools/ ./tools/
 COPY public/ ./public/
 COPY frontend/ ./frontend/
 COPY backend/ ./backend/
+COPY *.html ./
 
 # backend 디렉토리에서 실행 (로컬과 동일)
 WORKDIR /app/backend
