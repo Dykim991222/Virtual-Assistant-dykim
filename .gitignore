@@ -68,6 +68,7 @@ env/
 .env
 .env.local
 .env.*.local
+# 배포용 템플릿은 Git에 포함 (.env.aws, .env.homeserver)
 
 # Database
 *.db

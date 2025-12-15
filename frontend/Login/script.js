@@ -26,11 +26,11 @@ async function loginWithGoogle() {
     try {
         console.log('🔵 Google 로그인 시작');
         showLoading('google-btn');
-        
+
         // 백엔드에서 Google OAuth URL 가져오기
         const response = await fetch(`${API_BASE_URL}/auth/google/login`);
         const data = await response.json();
-        
+
         if (data.authorization_url) {
             console.log('🔵 Google OAuth URL로 이동:', data.authorization_url);
             // 현재 창에서 리다이렉트 (Electron & 브라우저 공통)
@@ -52,10 +52,10 @@ async function loginWithKakao() {
     try {
         console.log('🟡 Kakao 로그인 시작');
         showLoading('kakao-btn');
-        
+
         const response = await fetch(`${API_BASE_URL}/auth/kakao/login`);
         const data = await response.json();
-        
+
         if (data.authorization_url) {
             console.log('🟡 Kakao OAuth URL로 이동:', data.authorization_url);
             // 현재 창에서 리다이렉트
@@ -77,10 +77,10 @@ async function loginWithNaver() {
     try {
         console.log('🟢 Naver 로그인 시작');
         showLoading('naver-btn');
-        
+
         const response = await fetch(`${API_BASE_URL}/auth/naver/login`);
         const data = await response.json();
-        
+
         if (data.authorization_url) {
             console.log('🟢 Naver OAuth URL로 이동:', data.authorization_url);
             // 현재 창에서 리다이렉트
@@ -111,7 +111,7 @@ function continueAsGuest() {
 async function handleOAuthCallback() {
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
-    
+
     // 에러가 있으면 처리
     if (error) {
         console.error('OAuth 에러:', error);
@@ -142,7 +142,7 @@ function logout(redirect = true) {
     deleteCookie('refresh_token');
     deleteCookie('user');
     deleteCookie('logged_in');
-    
+
     if (redirect) {
         window.location.href = '/';
     }
@@ -176,29 +176,46 @@ function hideLoading(buttonClass) {
 window.addEventListener('DOMContentLoaded', () => {
     console.log('📄 Login 페이지 로드');
     console.log('🍪 현재 쿠키:', document.cookie);
-    
+
     // OAuth 에러 처리
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('error')) {
         handleOAuthCallback();
     }
-    
+
     // 이미 로그인 되어있으면 시작 페이지로 리다이렉트
     // (단, 명시적으로 로그인 페이지를 요청한 경우는 제외)
     const loggedIn = getCookie('logged_in');
     console.log('✅ logged_in 쿠키:', loggedIn);
     console.log('ℹ️  참고: access_token은 HttpOnly 쿠키라서 JavaScript에서 읽을 수 없습니다.');
-    
+
     // relogin 파라미터가 있으면 자동 리다이렉트 건너뛰기 (다른 계정으로 로그인)
     if (isLoggedIn() && !urlParams.has('logout') && !urlParams.has('relogin')) {
         console.log('✅ 이미 로그인됨 - /landing으로 이동');
         window.location.href = '/landing';
         return;
     }
-    
+
     if (urlParams.has('relogin')) {
         console.log('🔄 다른 계정으로 로그인 시도');
     } else {
         console.log('🔐 로그인 필요');
     }
+
+    // 이벤트 리스너 등록
+    const googleBtn = document.querySelector('.google-btn');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', loginWithGoogle);
+    }
+
+    const kakaoBtn = document.querySelector('.kakao-btn');
+    if (kakaoBtn) {
+        kakaoBtn.addEventListener('click', loginWithKakao);
+    }
+
+    const naverBtn = document.querySelector('.naver-btn');
+    if (naverBtn) {
+        naverBtn.addEventListener('click', loginWithNaver);
+    }
 });
+

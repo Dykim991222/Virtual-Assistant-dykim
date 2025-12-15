@@ -40,6 +40,11 @@ function createLandingWindow() {
   // 랜딩 페이지 로드 (시작하기, 사용설명서, 로그인 버튼)
   loginWin.loadURL(`${BACKEND_URL}/landing`);
 
+  // 백엔드 URL을 렌더러로 주입
+  loginWin.webContents.on('did-finish-load', () => {
+    loginWin.webContents.executeJavaScript(`window.BACKEND_URL = '${BACKEND_URL}';`);
+  });
+
   // OAuth 페이지에서 다시 랜딩 페이지로 돌아올 때 크기 복원
   loginWin.webContents.on('did-navigate', (event, url) => {
     if (url.includes('/landing')) {
@@ -153,6 +158,9 @@ function createCharacterWindow() {
 
   characterWin.webContents.on('did-finish-load', () => {
     console.log('✅ 캐릭터 로드 완료!');
+
+    // 백엔드 URL을 렌더러로 주입
+    characterWin.webContents.executeJavaScript(`window.BACKEND_URL = '${BACKEND_URL}';`);
 
     // 페이지 로드 완료 후 마우스 이벤트 활성화
     // (렌더러에서 동적으로 클릭-스루 영역 제어)

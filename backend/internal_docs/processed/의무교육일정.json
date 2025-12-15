@@ -10,7 +10,7 @@
         "page_number": 1,
         "content_type": "table",
         "total_pages": null,
-        "processed_at": "2025-12-11 12:13:29.011344",
+        "processed_at": "2025-12-15 16:22:06.446303",
         "file_size": null
       },
       "table_data": {
@@ -92,7 +92,7 @@
         "page_number": 1,
         "content_type": "text",
         "total_pages": null,
-        "processed_at": "2025-12-11 12:13:29.024302",
+        "processed_at": "2025-12-15 16:22:06.458262",
         "file_size": null
       },
       "table_data": null,
@@ -100,13 +100,13 @@
     },
     {
       "content_type": "image",
-      "text": "[이미지 설명]\n이 이미지는 2024년 실적과 2025년 목표를 비교한 막대 그래프입니다. 각 항목별로 파란색은 2024년 실적을, 빨간색은 2025년 목표를 나타냅니다.\n\n- **개인정보 교육**: 2024년 실적은 약 95%이며, 2025년 목표는 100%입니다.\n- **성희롱 예방**: 2024년 실적은 약 90%이고, 2025년 목표는 100%입니다.\n- **장애인 인식 개선**: 2024년 실적은 약 95%이며, 2025년 목표는 100%입니다.\n- **괴롭힘 예방**: 2024년 실적은 약 95%이고, 2025년 목표는 100%입니다.\n\n트렌드로 보면, 모든 항목에서 2024년에 이미 높은 실적을 기록했으며, 2025년에는 각각의 목표를 100%로 두고 있습니다. 이는 현재 실적보다 약간의 향상을 목표로 하고 있음을 보여줍니다.",
+      "text": "[이미지 설명]\n이 차트는 2024년의 실적과 2025년 목표를 비교한 막대 그래프입니다. \n\n- **구분**: '개인정보 교육', '성희롱 예방', '장애인 인식 개선', '괴롭힘 예방' 네 가지 항목으로 나뉘어 있습니다.\n- **색상**: 2024년 실적은 파란색, 2025년 목표는 빨간색으로 구분되어 있습니다.\n- **데이터**:\n  - 모든 항목에서 2025년 목표가 100%로 설정되어 있습니다.\n  - 2024년 실적은 약 95% 내외로 모든 항목에서 목표에 근접해 있으며, 살짝 낮은 값을 표시하고 있습니다.\n\n**트렌드**:\n- 2025년에는 모든 항목에서 100% 달성을 목표로 하고 있으며, 2024년 실적에 비해 소폭 상승을 기대하고 있습니다.\n- 전반적으로 2024년 실적이 이미 높은 수준에 이르렀음을 보여주고 있으며, 2025년에는 이를 완전히 달성하려는 노력이 필요합니다.",
       "metadata": {
         "filename": "의무교육일정",
         "page_number": 2,
         "content_type": "image",
         "total_pages": null,
-        "processed_at": "2025-12-11 12:13:45.322548",
+        "processed_at": "2025-12-15 16:22:15.517423",
         "file_size": null
       },
       "table_data": null,
@@ -120,7 +120,7 @@
         "page_number": 2,
         "content_type": "text",
         "total_pages": null,
-        "processed_at": "2025-12-11 12:13:45.322548",
+        "processed_at": "2025-12-15 16:22:15.522468",
         "file_size": null
       },
       "table_data": null,
@@ -134,13 +134,13 @@
         "page_number": 3,
         "content_type": "text",
         "total_pages": null,
-        "processed_at": "2025-12-11 12:13:45.365750",
+        "processed_at": "2025-12-15 16:22:15.544638",
         "file_size": null
       },
       "table_data": null,
       "translated_text": null
     }
   ],
-  "processed_at": "2025-12-11 12:13:45.366754",
-  "file_path": "C:\\Users\\301\\Documents\\GitHub\\Virtual-Assistant\\backend\\internal_docs\\uploads\\의무교육일정.pdf"
+  "processed_at": "2025-12-15 16:22:15.545198",
+  "file_path": "/Users/jinmokim/dev/Virtual-Assistant-personal/backend/internal_docs/uploads/의무교육일정.pdf"
 }
