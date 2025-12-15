@@ -17,6 +17,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 # 백엔드 코드 복사
 COPY . .
+COPY ../tools /app/tools
 
 # 포트 노출
 EXPOSE 8000
