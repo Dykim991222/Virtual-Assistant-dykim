@@ -10,6 +10,9 @@ Tool Layer for External Service Integration
     app.include_router(tools_router, prefix="/api/tools", tags=["tools"])
 """
 
+# 모듈 전체 export (Docker 환경을 위해 필수!)
+from . import drive_tool, gmail_tool, notion_tool, slack_tool, token_manager
+
 from .drive_tool import (
     create_folder,
     upload_file,
@@ -31,6 +34,12 @@ from .notion_tool import (
 from .schemas import function_definitions
 
 __all__ = [
+    # 모듈
+    "drive_tool",
+    "gmail_tool",
+    "notion_tool",
+    "slack_tool",
+    "token_manager",
     # Drive
     "create_folder",
     "upload_file",
