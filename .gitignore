@@ -85,6 +85,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Electron build output
+/dist/
+*.dmg
+*.exe
+*.AppImage
+*.snap
+
 # Frontend build
 frontend/build/
 frontend/dist/
