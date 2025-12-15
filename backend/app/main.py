@@ -24,7 +24,7 @@ from app.load_modules import init_all_modules
 # Tools Router 추가
 import sys
 from pathlib import Path
-tools_path = Path(__file__).resolve().parent.parent.parent / "tools"
+tools_path = Path(__file__).resolve().parent.parent / "tools"
 if str(tools_path) not in sys.path:
     sys.path.insert(0, str(tools_path))
 
