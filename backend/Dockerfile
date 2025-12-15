@@ -20,6 +20,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 # 프로젝트 구조 복사 (로컬과 동일하게)
 COPY tools/ ./tools/
+COPY public/ ./public/
+COPY frontend/ ./frontend/
 COPY backend/ ./backend/
 
 # backend 디렉토리에서 실행 (로컬과 동일)
