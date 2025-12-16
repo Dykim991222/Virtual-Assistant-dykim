@@ -5,9 +5,13 @@ const path = require('path');
 //환경변수 로드 추가!
 require('dotenv').config();
 
-//환경변수에서 백엔드 URL 가져오기 (기본값 localhost)
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000';
-console.log('백엔드 URL:', BACKEND_URL);
+//환경변수에서 백엔드 URL 가져오기
+// 개발: localhost, 배포: 서버 URL
+const isDev = process.env.NODE_ENV === 'development';
+const BACKEND_URL = isDev 
+  ? 'http://localhost:8000'  // 로컬 개발용
+  : 'https://virtualassistant.magui-dev.com';  // 배포용 (사용자)
+console.log('백엔드 URL:', BACKEND_URL, isDev ? '(개발 모드)' : '(배포 모드)');
 
 // 내보내기 핸들러 등록 (PDF, CSV)
 require('./exportHandlers.js');
@@ -987,74 +991,92 @@ app.whenReady().then(async () => {
   await session.defaultSession.clearCache();
   console.log('✅ 캐시 삭제 완료 - Refresh Token 유지됨');
 
-  // 백엔드 서버 시작
-  console.log('🔧 백엔드 서버 시작 중...');
-  const isWindows = process.platform === 'win32';
-  
-  // Windows: 새 콘솔 창에서 Python 실행 (백엔드 출력을 별도 콘솔로)
-  // Linux/Mac: stdout을 파일로 리다이렉트하거나 기존 방식 유지
-  if (isWindows) {
-    // Windows에서 새 콘솔 창 생성
-    // CREATE_NEW_CONSOLE 플래그를 사용하면 새 콘솔 창이 생성되고
-    // Python의 stdout/stderr가 그 창에 출력됨
-    // stdio를 설정하지 않으면 기본적으로 새 콘솔 창에 출력됨
-    backendProcess = spawn('python', ['assistant.py'], {
-      detached: false,  // Electron과 함께 종료되도록 유지
-      // stdio를 설정하지 않으면 CREATE_NEW_CONSOLE로 생성된 새 콘솔 창에 출력됨
-      shell: false,
-      windowsVerbatimArguments: false,
-      creationFlags: 0x00000010, // CREATE_NEW_CONSOLE - 새 콘솔 창 생성
-      env: {
-        ...process.env,
-        PYTHONIOENCODING: 'utf-8',
-        PYTHONUTF8: '1'
-      }
-    });
-  } else {
-    // Linux/Mac: 기존 방식 (터미널에서 직접 실행하는 경우)
-    backendProcess = spawn('python3', ['assistant.py'], {
-      stdio: ['ignore', 'pipe', 'pipe'], // stdout/stderr을 파이프로 받음
-      shell: true,
-      env: {
-        ...process.env,
-        PYTHONIOENCODING: 'utf-8',
-        PYTHONUTF8: '1'
-      }
-    });
+  // 🔥 배포 모드에서는 백엔드 시작 안 함 (서버 백엔드 사용)
+  if (isDev) {
+    // 백엔드 서버 시작 (개발 모드만)
+    console.log('🔧 백엔드 서버 시작 중...');
+    const isWindows = process.platform === 'win32';
     
-    // 백엔드 출력을 파일로 리다이렉트 (선택사항)
-    const fs = require('fs');
-    const logDir = path.join(__dirname, 'logs');
-    if (!fs.existsSync(logDir)) {
-      fs.mkdirSync(logDir, { recursive: true });
+    // Windows: 새 콘솔 창에서 Python 실행 (백엔드 출력을 별도 콘솔로)
+    // Linux/Mac: stdout을 파일로 리다이렉트하거나 기존 방식 유지
+    if (isWindows) {
+      // Windows에서 새 콘솔 창 생성
+      // CREATE_NEW_CONSOLE 플래그를 사용하면 새 콘솔 창이 생성되고
+      // Python의 stdout/stderr가 그 창에 출력됨
+      // stdio를 설정하지 않으면 기본적으로 새 콘솔 창에 출력됨
+      backendProcess = spawn('python', ['assistant.py'], {
+        detached: false,  // Electron과 함께 종료되도록 유지
+        // stdio를 설정하지 않으면 CREATE_NEW_CONSOLE로 생성된 새 콘솔 창에 출력됨
+        shell: false,
+        windowsVerbatimArguments: false,
+        creationFlags: 0x00000010, // CREATE_NEW_CONSOLE - 새 콘솔 창 생성
+        env: {
+          ...process.env,
+          PYTHONIOENCODING: 'utf-8',
+          PYTHONUTF8: '1'
+        }
+      });
+    } else {
+      // Linux/Mac: 기존 방식 (터미널에서 직접 실행하는 경우)
+      backendProcess = spawn('python3', ['assistant.py'], {
+        stdio: ['ignore', 'pipe', 'pipe'], // stdout/stderr을 파이프로 받음
+        shell: true,
+        env: {
+          ...process.env,
+          PYTHONIOENCODING: 'utf-8',
+          PYTHONUTF8: '1'
+        }
+      });
+      
+      // 백엔드 출력을 파일로 리다이렉트 (선택사항)
+      const fs = require('fs');
+      const logDir = path.join(__dirname, 'logs');
+      if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir, { recursive: true });
+      }
+      const logFile = fs.createWriteStream(path.join(logDir, 'backend.log'), { flags: 'a' });
+      
+      backendProcess.stdout.pipe(logFile);
+      backendProcess.stderr.pipe(logFile);
+      
+      // 터미널에도 출력 (Electron 콘솔이 아닌 터미널)
+      backendProcess.stdout.pipe(process.stdout);
+      backendProcess.stderr.pipe(process.stderr);
     }
-    const logFile = fs.createWriteStream(path.join(logDir, 'backend.log'), { flags: 'a' });
-    
-    backendProcess.stdout.pipe(logFile);
-    backendProcess.stderr.pipe(logFile);
-    
-    // 터미널에도 출력 (Electron 콘솔이 아닌 터미널)
-    backendProcess.stdout.pipe(process.stdout);
-    backendProcess.stderr.pipe(process.stderr);
-  }
 
-  backendProcess.on('error', (err) => {
-    console.error('❌ 백엔드 서버 시작 실패:', err);
-  });
+    backendProcess.on('error', (err) => {
+      console.error('❌ 백엔드 서버 시작 실패:', err);
+    });
 
-  backendProcess.on('exit', (code) => {
-    console.log(`📴 백엔드 서버 종료됨 (코드: ${code})`);
-  });
+    backendProcess.on('exit', (code) => {
+      console.log(`📴 백엔드 서버 종료됨 (코드: ${code})`);
+    });
 
-  // 백엔드가 준비될 때까지 대기
-  const ready = await waitForBackend();
+    // 백엔드가 준비될 때까지 대기
+    const ready = await waitForBackend();
 
-  if (ready) {
-    // 백엔드 준비 완료 후 랜딩 페이지 띄움
-    createLandingWindow();
+    if (ready) {
+      // 백엔드 준비 완료 후 랜딩 페이지 띄움
+      createLandingWindow();
+    } else {
+      console.error('❌ 백엔드를 시작할 수 없습니다.');
+      app.quit();
+    }
   } else {
-    console.error('❌ 백엔드를 시작할 수 없습니다.');
-    app.quit();
+    // 배포 모드: 서버 백엔드 사용
+    console.log('🌐 서버 백엔드 사용 (배포 모드)');
+    
+    // 서버 연결 확인 (선택사항)
+    const ready = await waitForBackend(10); // 10초만 대기
+    
+    if (ready) {
+      console.log('✅ 서버 백엔드 연결 성공!');
+      createLandingWindow();
+    } else {
+      console.error('⚠️ 서버 백엔드에 연결할 수 없습니다. 인터넷 연결을 확인하세요.');
+      // 경고만 하고 계속 진행 (오프라인 상태일 수 있음)
+      createLandingWindow();
+    }
   }
 });
 
