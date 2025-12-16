@@ -9,8 +9,10 @@ import { buildRequestContext } from './taskService.js';
 // 전역 폰트 설정 (모든 동적 생성 요소에 적용)
 const DEFAULT_FONT_FAMILY = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
-const API_BASE = 'http://localhost:8000/api/v1';
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+// 백엔드 URL 가져오기 (Electron main.js에서 주입)
+const BACKEND_URL = window.BACKEND_URL || 'http://localhost:8000';
+const API_BASE = `${BACKEND_URL}/api/v1`;
+const API_BASE_URL = `${BACKEND_URL}/api/v1`;
 const MULTI_AGENT_SESSION_KEY = 'multi_agent_session_id';
 
 let messages = [];
@@ -291,7 +293,7 @@ function formatStructuredMessage(data) {
   if (reportUrl) {
     html += `<div class="report-link" style="font-family: ${DEFAULT_FONT_FAMILY}">`;
     // Electron 환경에서 링크 열기
-    const fullUrl = reportUrl.startsWith('http') ? reportUrl : `http://localhost:8000${reportUrl}`;
+    const fullUrl = reportUrl.startsWith('http') ? reportUrl : `${BACKEND_URL}${reportUrl}`;
     html += `<a href="#" onclick="openReportLink('${fullUrl}'); return false;" class="report-btn" style="font-family: ${DEFAULT_FONT_FAMILY}">`;
     html += `📄 ${fileName}`;
     html += `</a>`;
@@ -2327,7 +2329,7 @@ async function handleNotesInput(inputText, reportId) {
 function showReportViewButton(reportDate) {
   if (!reportDate) return;
   
-  const reportUrl = `http://localhost:8000/static/reports/daily/일일보고서_default_workspace_${reportDate}.html`;
+  const reportUrl = `${BACKEND_URL}/static/reports/daily/일일보고서_default_workspace_${reportDate}.html`;
   
   // 새로운 메시지로 버튼 표시
   const buttonMessage = document.createElement('div');

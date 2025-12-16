@@ -540,6 +540,9 @@ async function openReportPopup() {
   reportWin.webContents.on('did-finish-load', () => {
     console.log('📝 보고서 팝업 로드 완료');
     
+    // 백엔드 URL을 렌더러로 주입
+    reportWin.webContents.executeJavaScript(`window.BACKEND_URL = '${BACKEND_URL}';`);
+    
     if (process.platform === 'win32') {
       console.log('📝 Windows 보고서 팝업: CSS에서 border-radius 제거 시도');
       
@@ -645,6 +648,9 @@ ipcMain.on('open-brainstorming-popup', async (event) => {
   // 페이지 로드 완료
   brainstormingWin.webContents.on('did-finish-load', () => {
     console.log('🧠 브레인스토밍 팝업 로드 완료');
+    
+    // 백엔드 URL을 렌더러로 주입
+    brainstormingWin.webContents.executeJavaScript(`window.BACKEND_URL = '${BACKEND_URL}';`);
   });
 
   // 개발자 도구 (F12)
