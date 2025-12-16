@@ -43,9 +43,22 @@
       "sign": false
     },
     "win": {
-      "target": "nsis",
+      "target": [{
+        "target": "nsis",
+        "arch": ["x64", "ia32"]
+      }],
       "icon": "public/icon.png",
       "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "language": "1042",
+      "createDesktopShortcut": true,
+      "shortcutName": "Virtual Assistant",
+      "createStartMenuShortcut": true,
+      "warningsAsErrors": false
     }
   },
   "repository": {
